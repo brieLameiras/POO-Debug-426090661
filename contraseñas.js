@@ -1,4 +1,3 @@
-
 const readline = require("readline");
 
 const entrada = readline.createInterface({
@@ -6,19 +5,24 @@ const entrada = readline.createInterface({
     output: process.stdout
 });
 
-function generarContrasena() {
+function generarContrasena(longitud) {
     let caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let contrasena = "";
-
-    for (let i = 0; i < Number(longitud); i++) {
+    const tamano = Number(longitud);
+    
+    if (isNaN(tamano) || tamano <= 0) {
+        console.log("Por favor escribe un número mayor a 0");
+        entrada.close();
+        return;
+    }
+    
+    for (let i = 0; i < tamano; i++) {
         let numero = Math.floor(Math.random() * caracteres.length);
         contrasena += caracteres[numero];
     }
-
+    
     console.log("Tu contraseña es: " + contrasena);
+    entrada.close();
 }
 
-entrada.question("Cuantos caracteres quieres?: ", function(longitud) {
-    generarContrasena();
-    entrada.close();
-});
+entrada.question("¿Cuántos caracteres quieres?: ", generarContrasena);
